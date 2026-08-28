@@ -1,0 +1,108 @@
+
+
+.sortSection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.sortLabel {
+  font-weight: bold;
+}
+
+/* Classe utilitaire pour masquer visuellement un label
+   tout en le gardant accessible aux lecteurs d'écran */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.sortSelect {
+  background-color: #901c1c;
+  color: #fafafa;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(100px, 1fr));
+  gap: 95px;
+  margin : 0 95
+}
+
+.card {
+  margin: 0;
+}
+
+.thumbnail {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 5px;
+  object-fit: cover;
+  display: block;
+}
+
+.caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 4px;
+}
+
+.title {
+
+font-family: 'DM Sans';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 31px;
+
+color: #911C1C;
+
+
+}
+
+.likesWrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #d3573c;
+  font-weight: bold;
+}
+
+.likeIcon {
+  font-size: 16px;
+}
+
+.likesCount {
+	font-family: var(--font-dm-sans);
+	font-style: normal;
+	font-weight: 500;
+	font-size: 24px;
+	line-height: 31px;
+	text-align: right;
+	color: #911C1C;
+}
+
+.likeButton{
+background: none;
+border: none;
+
+
+}
+
+.buttonImg{
+background: none;
+border: none;
+border-radius: 0;
+}

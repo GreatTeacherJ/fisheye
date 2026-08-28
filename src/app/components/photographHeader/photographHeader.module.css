@@ -1,0 +1,74 @@
+
+.photographerHeader {
+  background-color: #fafafa;
+  border-radius: 8px;
+  padding: 32px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: row;
+}
+
+.infos {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.name {
+font-family: 'DM Sans';
+font-style: normal;
+font-weight: 400;
+font-size: 64px;
+line-height: 83px;
+color: #D3573C;
+}
+
+.location {
+font-family: 'DM Sans';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 31px;
+color: #901C1C;
+
+}
+
+.tagline {
+font-family: 'DM Sans';
+font-style: normal;
+font-weight: 400;
+font-size: 1.12rem;
+line-height: 23px;
+color: #525252;
+
+}
+
+
+.contactButton {
+ 
+  color: #fafafa;
+  border: none;
+ background: #911C1C;
+border-radius: 5px;
+  padding: 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+ 
+}
+
+.contactButton:hover,
+.contactButton:focus-visible {
+  background-color: #7a1717;
+  outline: 2px solid #333;
+}
+
+.portrait {
+  border-radius: 50%;
+  object-fit: cover;
+  width:auto;
+  height:200px;
+}
