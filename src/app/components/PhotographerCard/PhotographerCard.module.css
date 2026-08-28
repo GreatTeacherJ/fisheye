@@ -1,0 +1,41 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.portrait {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 12px;
+}
+
+.name {
+  color: #e8580c;
+  font-size: 2.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.location {
+  color: #e8580c;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.tagline {
+  color: #333;
+  font-size: 0.65rem;
+  margin: 4px 0 0;
+}
+
+.price {
+  color: #333;
+  font-size: 0.56rem;
+  margin: 2px 0 0;
+}
