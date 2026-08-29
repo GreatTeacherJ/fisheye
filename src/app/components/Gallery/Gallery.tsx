@@ -1,27 +1,21 @@
 "use client";
 
 import styles from "./Gallery.module.css";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState, useMemo } from "react";
 import type { Media } from "@prisma/client";
 import GalleryModal from "../GalleryModal/GalleryModal";
 import { likeMedia } from "@/app/actions/likeMedia";
 
 interface Medias {
 	initialMedias: Media[];
-	price: Number;
+	price: number;
 }
-
-//variable teste pour voir si l'image est likée
-let liked = false;
 
 export default function Gallery({ initialMedias, price }: Medias) {
 	//Liste des médias sera mise à jour au moment de liké
 	const [medias, setMedias] = useState(initialMedias);
 	//option pour le trie
 	const [sortValue, setSortValue] = useState("popularity");
-	//liste trié des medias
-	const [sortedMedias, setSortedMedias] = useState<Media[]>(medias);
 	//Pour savoir si la modal est ouverte
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	//pour savoir sur quelle image on à cliqué pour la modale
@@ -35,9 +29,11 @@ export default function Gallery({ initialMedias, price }: Medias) {
 
 	console.log("tableau des likes : ", arrayLiked);
 
-	//useEffect(() => {}, [arrayLiked]);
-
 	async function handleLike(id: number) {
+		if (arrayLiked[id] === true) {
+			return;
+		}
+
 		setArrayLiked((prevState) => ({
 			...prevState, // copie toutes les clés existantes
 			[id]: true, // écrase uniquement la clé `id` avec la nouvelle valeur
@@ -60,26 +56,19 @@ export default function Gallery({ initialMedias, price }: Medias) {
 		setIsModalOpen(true);
 	}
 
-	useEffect(() => {
-		// Toujours copier avant de trier : ne jamais muter le tableau original/prop
-		let sorted: Media[];
+	const sortedMedias = useMemo(() => {
 		switch (sortValue) {
 			case "popularity":
-				sorted = [...medias].sort((a, b) => b.likes - a.likes);
-				break;
+				return [...medias].sort((a, b) => b.likes - a.likes);
 			case "date":
-				sorted = [...medias].sort(
+				return [...medias].sort(
 					(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime(),
 				);
-				break;
 			case "title":
-				sorted = [...medias].sort((a, b) => a.title.localeCompare(b.title));
-				break;
+				return [...medias].sort((a, b) => a.title.localeCompare(b.title));
 			default:
-				sorted = [...medias].sort((a, b) => b.likes - a.likes);
-				break;
+				return [...medias].sort((a, b) => b.likes - a.likes);
 		}
-		setSortedMedias(sorted);
 	}, [sortValue, medias]);
 
 	return (
@@ -120,7 +109,7 @@ export default function Gallery({ initialMedias, price }: Medias) {
 							{media.image ? (
 								<img
 									src={`/${media.image}`}
-									alt={`${media.title}, closeup view`}
+									alt={media.title}
 									className={styles.thumbnail}
 								/>
 							) : (
@@ -130,7 +119,7 @@ export default function Gallery({ initialMedias, price }: Medias) {
 									muted // obligatoire pour autoplay sans interaction utilisateur (politique des navigateurs)
 									preload="metadata"
 									playsInline // évite le fullscreen forcé sur iOS Safari
-									aria-label={`${media.title}, closeup view`}
+									aria-label={media.title}
 								/>
 							)}
 						</button>
@@ -140,11 +129,10 @@ export default function Gallery({ initialMedias, price }: Medias) {
 							<span className={styles.title}>{media.title}</span>
 
 							<span className={styles.likesWrapper}>
-								{/* #11 - Bouton interactif, aria-pressed pour l'état liked/unliked */}
 								<button
 									type="button"
 									aria-label={`Like ${media.title}, ${media.likes} likes`}
-									aria-pressed={liked ?? false}
+									aria-pressed={arrayLiked[media.id] ?? false}
 									className={styles.likeButton}
 									onClick={() => handleLike(media.id)}
 								>
