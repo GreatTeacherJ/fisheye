@@ -42,3 +42,7 @@ next-env.d.ts
 
 #public
 /public
+
+#prisma
+
+prisma/dev.db
