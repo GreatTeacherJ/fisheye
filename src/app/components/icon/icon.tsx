@@ -8,7 +8,7 @@ export interface IconProps {
 	color?: string; // optionnel si tu veux override currentColor
 }
 
-export function Iconfisheye({
+export default function Iconfisheye({
 	className,
 	width = 24,
 	height = 24,

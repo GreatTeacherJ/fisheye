@@ -1,16 +1,6 @@
 import styles from "./PhotographerCard.module.css";
 import Link from "next/link";
-
-// Type describing the props expected for a single photographer card
-interface PhotographerCardProps {
-	id: string;
-	name: string;
-	city: string;
-	country: string;
-	tagline: string;
-	price: number;
-	portrait: string; // fake path, e.g. "/photographers/mimi-keel.jpg"
-}
+import type { Photographer } from "@prisma/client";
 
 export default function PhotographerCard({
 	id,
@@ -20,7 +10,7 @@ export default function PhotographerCard({
 	tagline,
 	price,
 	portrait,
-}: PhotographerCardProps) {
+}: Photographer) {
 	return (
 		<Link
 			href={`/${name.toLowerCase().replace(/\s+/g, "")}-${id}`}
