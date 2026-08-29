@@ -38,11 +38,11 @@ export default async function PhotographerPage({
 
 	return (
 		<div className={styles.page}>
-			<Header />
+			<Header onText={false} />
 
 			<PhotographHeader photographer={photographer} />
 
-			<Gallery medias={medias} />
+			<Gallery initialMedias={medias} price={photographer.price} />
 		</div>
 	);
 }

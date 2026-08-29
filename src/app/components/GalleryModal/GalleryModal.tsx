@@ -3,38 +3,33 @@ import styles from "./GalleryModal.module.css";
 import type { Media } from "@prisma/client";
 
 interface GalleryModalProps {
-	sortedMedias: Media[];
+	medias: Media[];
 	onClose: () => void;
+	indexClicked: number;
 }
 
-export default function GalleryModal({ sortedMedias, onClose }: GalleryModalProps) {
+export default function GalleryModal({
+	medias,
+	onClose,
+	indexClicked,
+}: GalleryModalProps) {
+	//======================================================
+
+	console.log("index reçu : ", indexClicked);
+
+	//On tri la liste en commençant par l'index sur lequel on a cliqué
+	const sortedMedias = rotateFromIndex(medias, indexClicked);
+
 	const dialogRef = useRef<HTMLDialogElement>(null);
+	//imgPosition est la position de l'image afficher par rapport à la liste triée
 	const [imgPosition, setImgPosition] = useState<number>(0);
 
-	function onPrevious() {
-		//si la nouvelle position est inférieur au premier élément
-		// alors on affiche le dérnier de la liste
-		const newImgPosition = imgPosition - 1;
-		const mediasLen = sortedMedias.length;
-
-		if (newImgPosition < 0) {
-			setImgPosition(mediasLen);
-		} else {
-			setImgPosition(newImgPosition);
-		}
+	function onNext() {
+		setImgPosition((prev) => (prev + 1) % sortedMedias.length);
 	}
 
-	function onNext() {
-		//si le nouvelle élément est supérieur à la longeur de la liste
-		// alors on affiche le premier élément
-		const newImgPosition = imgPosition + 1;
-		const mediasLen = sortedMedias.length;
-
-		if (newImgPosition >= mediasLen) {
-			setImgPosition(0);
-		} else {
-			setImgPosition(newImgPosition);
-		}
+	function onPrevious() {
+		setImgPosition((prev) => (prev - 1 + sortedMedias.length) % sortedMedias.length);
 	}
 
 	useEffect(() => {
@@ -64,6 +59,32 @@ export default function GalleryModal({ sortedMedias, onClose }: GalleryModalProp
 			dialogNode.removeEventListener("click", handleBackdropClick);
 		};
 	}, [onClose]);
+
+	//Fonction qui retourne un array avec l'index donné en premier
+	function rotateFromIndex<T>(arr: T[], index: number | undefined): T[] {
+		// slice(index) → prend tout depuis index jusqu'à la fin
+		// slice(0, index) → prend tout avant index
+		// concat → recolle les deux morceaux dans le nouvel ordre
+		return arr.slice(index).concat(arr.slice(0, index));
+	}
+
+	//Pour la navigation au clavier fleche droite et gauche
+	useEffect(() => {
+		// handler function to react to keyboard events
+		function handleKeyDown(event: KeyboardEvent) {
+			if (event.key === "ArrowRight") {
+				onNext();
+			} else if (event.key === "ArrowLeft") {
+				onPrevious();
+			}
+		}
+
+		// attach listener on mount
+		window.addEventListener("keydown", handleKeyDown);
+
+		// cleanup: remove listener on unmount to avoid memory leaks / duplicate listeners
+		return () => window.removeEventListener("keydown", handleKeyDown);
+	}, [onNext, onPrevious]); // re-run effect if callbacks change
 
 	return (
 		<dialog

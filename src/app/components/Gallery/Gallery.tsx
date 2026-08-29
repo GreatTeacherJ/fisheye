@@ -5,22 +5,58 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { Media } from "@prisma/client";
 import GalleryModal from "../GalleryModal/GalleryModal";
+import { likeMedia } from "@/app/actions/likeMedia";
 
 interface Medias {
-	medias: Media[];
+	initialMedias: Media[];
+	price: Number;
 }
 
 //variable teste pour voir si l'image est likée
 let liked = false;
 
-export default function Gallery({ medias }: Medias) {
+export default function Gallery({ initialMedias, price }: Medias) {
+	//Liste des médias sera mise à jour au moment de liké
+	const [medias, setMedias] = useState(initialMedias);
+	//option pour le trie
 	const [sortValue, setSortValue] = useState("popularity");
+	//liste trié des medias
 	const [sortedMedias, setSortedMedias] = useState<Media[]>(medias);
+	//Pour savoir si la modal est ouverte
 	const [isModalOpen, setIsModalOpen] = useState(false);
+	//pour savoir sur quelle image on à cliqué pour la modale
+	const [indexClicked, setIndexClicked] = useState(0);
+	//liste des id d'images qu'on à liké
+	const [arrayLiked, setArrayLiked] = useState(
+		Object.fromEntries(medias.map((media) => [media.id, false])),
+	);
 
-	function handleLike(id: number) {}
+	const numLikes = medias.reduce((total, media) => total + media.likes, 0);
 
-	function onOpen() {
+	console.log("tableau des likes : ", arrayLiked);
+
+	//useEffect(() => {}, [arrayLiked]);
+
+	async function handleLike(id: number) {
+		setArrayLiked((prevState) => ({
+			...prevState, // copie toutes les clés existantes
+			[id]: true, // écrase uniquement la clé `id` avec la nouvelle valeur
+		}));
+
+		//mettre à jour les likes dans la base de donnée
+
+		const media = medias.find((m) => m.id === id);
+		if (!media) {
+			return;
+		}
+		const newLikes = media.likes + 1;
+		// Appel réseau vers le serveur, qui exécute Prisma
+		const updatedMedia = await likeMedia(id, newLikes);
+		setMedias((prev) => prev.map((m) => (m.id === id ? updatedMedia : m)));
+	}
+
+	function onOpen(index: number) {
+		setIndexClicked(index);
 		setIsModalOpen(true);
 	}
 
@@ -74,10 +110,13 @@ export default function Gallery({ medias }: Medias) {
 				</select>
 			</section>
 			<section className={styles.gallery} aria-label="Photo gallery">
-				{sortedMedias.map((media) => (
+				{sortedMedias.map((media, index) => (
 					<figure key={media.id} className={styles.card}>
 						{/* #9 - Lien vers la lightbox : le texte alternatif est porté par l'image elle-même */}
-						<button onClick={onOpen} className={styles.buttonImg}>
+						<button
+							onClick={() => onOpen(index)}
+							className={styles.buttonImg}
+						>
 							{media.image ? (
 								<img
 									src={`/${media.image}`}
@@ -89,8 +128,7 @@ export default function Gallery({ medias }: Medias) {
 									src={`/${media.video}`}
 									className={styles.thumbnail}
 									muted // obligatoire pour autoplay sans interaction utilisateur (politique des navigateurs)
-									autoPlay
-									loop
+									preload="metadata"
 									playsInline // évite le fullscreen forcé sur iOS Safari
 									aria-label={`${media.title}, closeup view`}
 								/>
@@ -116,7 +154,11 @@ export default function Gallery({ medias }: Medias) {
 									{/* aria-hidden car l'info est déjà portée par aria-label du bouton */}
 
 									<img
-										src="/like.svg"
+										src={
+											arrayLiked[media.id]
+												? "/like.svg"
+												: "/likeNo.svg"
+										}
 										aria-hidden="true"
 										className={styles.likeIcon}
 									/>
@@ -126,10 +168,20 @@ export default function Gallery({ medias }: Medias) {
 					</figure>
 				))}
 			</section>
+
+			<article className={styles.infoPage}>
+				<div className={styles.likeContainer}>
+					<p>{numLikes}</p>
+					<img src="/likeBlack.svg" className={styles.blackLike} />
+				</div>
+				<p>{price.toString()}€/jour</p>
+			</article>
+
 			{isModalOpen && (
 				<GalleryModal
-					sortedMedias={sortedMedias}
+					medias={sortedMedias}
 					onClose={() => setIsModalOpen(false)}
+					indexClicked={indexClicked}
 				/>
 			)}
 		</>

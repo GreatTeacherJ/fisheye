@@ -32,24 +32,40 @@ export default function ContactModal({ photographerName, onClose }: ContactModal
 	const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState("");
 	const [message, setMessage] = useState("");
+	//pour gérer les erreurs du formulaire
+	const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
 	function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
 		event.preventDefault();
 
-		console.log({
-			firstName,
-			lastName,
-			email,
-			message,
-		});
+		// On construit les erreurs à chaque soumission
+		const newErrors: { [key: string]: string } = {};
 
-		setFirstName("");
-		setLastName("");
-		setEmail("");
-		setMessage("");
+		if (!firstName.trim()) newErrors.firstName = "Le prénom est requis";
+		if (!lastName.trim()) newErrors.lastName = "Le nom est requis";
+		if (!email.trim()) newErrors.email = "L'email est requis";
+		if (!message.trim()) newErrors.message = "Le message est requis";
+		setErrors(newErrors);
 
-		// Fermeture propre via l'API native (déclenche l'event "close" ci-dessus)
-		dialogRef.current?.close();
+		// Si le dictionnaire d'erreurs est vide, on peut envoyer
+		if (Object.keys(newErrors).length === 0) {
+			// logique d'envoi ici
+
+			console.log({
+				firstName,
+				lastName,
+				email,
+				message,
+			});
+
+			setFirstName("");
+			setLastName("");
+			setEmail("");
+			setMessage("");
+
+			// Fermeture propre via l'API native (déclenche l'event "close" ci-dessus)
+			dialogRef.current?.close();
+		}
 	}
 
 	return (
@@ -84,6 +100,9 @@ export default function ContactModal({ photographerName, onClose }: ContactModal
 							value={firstName}
 							onChange={(e) => setFirstName(e.target.value)}
 						/>
+						{errors.firstName && (
+							<span className={styles.error}>{errors.firstName}</span>
+						)}
 					</div>
 
 					<div className={styles.formGroup}>
@@ -94,6 +113,9 @@ export default function ContactModal({ photographerName, onClose }: ContactModal
 							value={lastName}
 							onChange={(e) => setLastName(e.target.value)}
 						/>
+						{errors.lastName && (
+							<span className={styles.error}>{errors.lastName}</span>
+						)}
 					</div>
 
 					<div className={styles.formGroup}>
@@ -104,6 +126,9 @@ export default function ContactModal({ photographerName, onClose }: ContactModal
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 						/>
+						{errors.email && (
+							<span className={styles.error}>{errors.email}</span>
+						)}
 					</div>
 
 					<div className={styles.formGroup}>
@@ -113,6 +138,9 @@ export default function ContactModal({ photographerName, onClose }: ContactModal
 							value={message}
 							onChange={(e) => setMessage(e.target.value)}
 						/>
+						{errors.message && (
+							<span className={styles.error}>{errors.message}</span>
+						)}
 					</div>
 
 					<button type="submit" className={styles.submitButton}>

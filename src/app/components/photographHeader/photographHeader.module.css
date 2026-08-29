@@ -69,6 +69,7 @@ border-radius: 5px;
 .portrait {
   border-radius: 50%;
   object-fit: cover;
-  width:auto;
+  
   height:200px;
+  aspect-ratio: 1/1;
 }

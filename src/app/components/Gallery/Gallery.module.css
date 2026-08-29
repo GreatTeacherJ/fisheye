@@ -97,12 +97,60 @@ color: #911C1C;
 .likeButton{
 background: none;
 border: none;
+margin: 2px;
+width: 100%;
+  display: flex;
+  align-items: center;    /* aligne verticalement texte et image au centre */
+  gap: 2px;                /* espace entre texte et image, remplace margin */
+  white-space: nowrap;     /* empêche le texte de wrapper et casser le layout */
 
+}
 
+.likeButton:hover{
+  border : 2px solid #911C1C;
+  margin : 0px;
 }
 
 .buttonImg{
 background: none;
 border: none;
 border-radius: 0;
+}
+
+.infoPage{
+position: fixed;
+bottom : 0;
+right : 20px;
+background: #DB8876;
+border-radius: 5px;
+width: auto;
+display: flex;
+flex-direction: row;
+padding : 15px 30px;
+gap: 20px;
+}
+
+.infoPage p{
+
+
+font-family: 'DM Sans';
+font-style: normal;
+font-weight: 500;
+font-size: 1.5rem;
+line-height: 31px;
+text-align: right;
+
+color: #000000;
+
+
+}
+
+.likeContainer{
+display: flex;
+flex-direction: row;
+
+}
+
+.blackLike{
+  color: #000000;
 }
