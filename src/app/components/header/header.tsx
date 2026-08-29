@@ -1,7 +1,6 @@
 import styles from "./header.module.css";
 import { Iconfisheye } from "../icon/icon";
 import Link from "next/link";
-import { ScriptProps } from "next/script";
 
 interface Props {
 	onText: boolean;

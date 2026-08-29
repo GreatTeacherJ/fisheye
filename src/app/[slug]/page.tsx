@@ -1,6 +1,5 @@
 import styles from "./photographer.module.css";
 import { getPhotographer, getAllMediasForPhotographer } from "@/app/lib/prisma-db";
-import Link from "next/link";
 import Header from "@/app/components/header/header";
 import { notFound } from "next/navigation";
 import Gallery from "../components/Gallery/Gallery";
