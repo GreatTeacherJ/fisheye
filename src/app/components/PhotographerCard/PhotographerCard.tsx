@@ -3,6 +3,7 @@ import Link from "next/link";
 
 // Type describing the props expected for a single photographer card
 interface PhotographerCardProps {
+	id: string;
 	name: string;
 	city: string;
 	country: string;
@@ -12,6 +13,7 @@ interface PhotographerCardProps {
 }
 
 export default function PhotographerCard({
+	id,
 	name,
 	city,
 	country,
@@ -20,7 +22,10 @@ export default function PhotographerCard({
 	portrait,
 }: PhotographerCardProps) {
 	return (
-		<Link href={`/photographer/${12}`} aria-label="Photographer Link">
+		<Link
+			href={`/${name.toLowerCase().replace(/\s+/g, "")}-${id}`}
+			aria-label="Photographer Link"
+		>
 			<article className={styles.card}>
 				{/* Fake image path — replace with real asset in /public */}
 				<img

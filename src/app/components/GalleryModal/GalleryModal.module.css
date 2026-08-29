@@ -1,0 +1,93 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+
+  border: none;
+  padding: 0;
+  background: white;
+
+  width: 90vw;
+  height: 90vh;
+  max-width: 1200px;
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+.mediaContainer {
+  /* prend toute la place du modal, MOINS l'espace réservé aux boutons/titre */
+  position: absolute;
+  top: 50px;    /* espace pour closeButton */
+  left: 60px;   /* espace pour prevButton */
+  right: 60px;  /* espace pour nextButton */
+  bottom: 40px; /* espace pour title */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.media {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  background: none;
+  border: none;
+  color: #b91c1c;
+  font-size: 4.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.prevButton,
+.nextButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #b91c1c;
+  font-size: 3rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.prevButton {
+  left: 15px;
+}
+
+.nextButton {
+  right: 15px;
+}
+
+.title {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  color: #b91c1c;
+  font-size: 1.1rem;
+  margin: 0;
+}

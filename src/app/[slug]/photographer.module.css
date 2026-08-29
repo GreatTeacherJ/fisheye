@@ -1,0 +1,11 @@
+.page {
+  background-color: #ececec;
+  min-height: 100vh;
+  padding: 24px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.mainHeader {
+  margin-bottom: 24px;
+}
+

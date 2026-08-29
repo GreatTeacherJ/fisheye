@@ -4,7 +4,7 @@ import TagPhotographer from "./components/TagPhotographer/TagPhotographer";
 export default function Home() {
 	return (
 		<>
-			<Header />
+			<Header onText={true} />
 			<TagPhotographer />
 		</>
 	);
