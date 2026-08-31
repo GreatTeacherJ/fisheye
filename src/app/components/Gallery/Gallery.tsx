@@ -6,12 +6,12 @@ import type { Media } from "@prisma/client";
 import GalleryModal from "../GalleryModal/GalleryModal";
 import { likeMedia } from "@/app/actions/likeMedia";
 
-interface Medias {
+interface GalleryProps {
 	initialMedias: Media[];
 	price: number;
 }
 
-export default function Gallery({ initialMedias, price }: Medias) {
+export default function Gallery({ initialMedias, price }: GalleryProps) {
 	//Liste des médias sera mise à jour au moment de liké
 	const [medias, setMedias] = useState(initialMedias);
 	//option pour le trie
@@ -26,8 +26,6 @@ export default function Gallery({ initialMedias, price }: Medias) {
 	);
 
 	const numLikes = medias.reduce((total, media) => total + media.likes, 0);
-
-	console.log("tableau des likes : ", arrayLiked);
 
 	async function handleLike(id: number) {
 		if (arrayLiked[id] === true) {

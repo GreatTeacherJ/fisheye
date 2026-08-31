@@ -1,18 +1,9 @@
 "use client";
 
-import styles from "./photographHeader.module.css";
+import styles from "./PhotographHeader.module.css";
 import ContactModal from "../ContactModal/ContactModal";
 import { useState } from "react";
-
-interface Photographer {
-	name: string;
-	city: string;
-	country: string;
-	tagline: string;
-	portrait: string;
-	id: number;
-	price: number;
-}
+import type { Photographer } from "@prisma/client";
 
 interface PhotographerProps {
 	photographer: Photographer;
