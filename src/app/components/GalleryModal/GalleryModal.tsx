@@ -15,8 +15,6 @@ export default function GalleryModal({
 }: GalleryModalProps) {
 	//======================================================
 
-	console.log("index reçu : ", indexClicked);
-
 	//On tri la liste en commençant par l'index sur lequel on a cliqué
 	const sortedMedias = rotateFromIndex(medias, indexClicked);
 
@@ -104,7 +102,7 @@ export default function GalleryModal({
 				{sortedMedias[imgPosition].image ? (
 					<img
 						src={`/${sortedMedias[imgPosition].image}`}
-						alt={`${sortedMedias[imgPosition].title}, closeup view`}
+						alt={sortedMedias[imgPosition].title}
 						className={styles.media}
 					/>
 				) : (
@@ -115,7 +113,7 @@ export default function GalleryModal({
 						autoPlay
 						loop
 						playsInline // évite le fullscreen forcé sur iOS Safari
-						aria-label={`${sortedMedias[imgPosition].title}, closeup view`}
+						aria-label={sortedMedias[imgPosition].title}
 					/>
 				)}
 			</div>

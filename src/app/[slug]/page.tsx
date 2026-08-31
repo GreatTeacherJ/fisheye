@@ -1,9 +1,9 @@
-import styles from "./photographer.module.css";
+import styles from "./Photographer.module.css";
 import { getPhotographer, getAllMediasForPhotographer } from "@/app/lib/prisma-db";
-import Header from "@/app/components/header/header";
+import Header from "@/app/components/Header/Header";
 import { notFound } from "next/navigation";
 import Gallery from "../components/Gallery/Gallery";
-import PhotographHeader from "../components/photographHeader/photographHeader";
+import PhotographHeader from "../components/PhotographHeader/PhotographHeader";
 
 export default async function PhotographerPage({
 	params,
@@ -14,9 +14,7 @@ export default async function PhotographerPage({
 
 	// l'id est toujours après le dernier tiret : on le récupère par regex
 	const id = slug.match(/-(\d+)$/)?.[1];
-	console.log(`slug : ${slug}
-	id : ${id}
-	`);
+
 	if (!id) {
 		// slug malformé, pas d'id trouvable
 		notFound();
@@ -33,7 +31,6 @@ export default async function PhotographerPage({
 	}
 	//Chargement des média du photgraphe
 	const medias = await getAllMediasForPhotographer(Number(id));
-	console.log("media photgrapher: ", medias);
 
 	return (
 		<div className={styles.page}>
