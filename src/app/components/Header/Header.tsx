@@ -2,6 +2,7 @@ import styles from "./Header.module.css";
 import Link from "next/link";
 
 interface Props {
+	//Indique si le teste "Nos photographes doit êtres affiché"
 	onText: boolean;
 }
 

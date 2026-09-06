@@ -33,7 +33,7 @@ npm run start         # Démarrer serveur production
 npm run lint          # Linter avec ESLint (Next.js + TypeScript rules)
 ```
 
-**Prisma** (depuis racine `Mission_FishEye/` ou depuis `fisheye/`) :
+**Prisma** (depuis racine `fisheye/`) :
 
 ```bash
 npx prisma migrate dev --name <nom>  # Créer/appliquer migration après schema.prisma change
@@ -53,6 +53,7 @@ npx prisma studio                    # GUI pour explorer DB
 4. **Vérifier** : `npx prisma studio` pour consulter DB
 
 **Important** :
+
 - `DATABASE_URL` = `file:./dev.db` (voir `.env`)
 - Seed = une seule exécution. Pour réinitialiser : supprimer `prisma/dev.db` et relancer migrate + seed.
 - Données disponibles : 8 photographes + leurs médias (images/vidéos)
@@ -62,13 +63,16 @@ npx prisma studio                    # GUI pour explorer DB
 ## Conventions de code
 
 **Path alias** : `@/*` → `./src/*`
+
 - Utiliser `import { foo } from '@/app/lib/prisma-db'` au lieu de `../../../`
 
 **Couche données** : `src/app/lib/prisma-db.js`
+
 - Requêtes prédéfinies : `getAllPhotographers()`, `getPhotographer(id)`, `getAllMediasForPhotographer(photographerId)`, `updateNumberOfLikes(mediaId, newNumberOfLikes)`
 - Appeler directement depuis Server Components
 
 **TypeScript** :
+
 - Mode strict activé
 - Types résolus : `@types/react`, `@types/react-dom`, `@types/node`
 - Fichiers composants : `.tsx`
@@ -83,6 +87,7 @@ npx prisma studio                    # GUI pour explorer DB
 **Media** : id, title, image?, video?, likes, date, price, photographer (FK)
 
 **Requêtes disponibles** (dans `src/app/lib/prisma-db.js`) :
+
 ```javascript
 getAllPhotographers()                          // → Photographer[]
 getPhotographer(id: number)                    // → Photographer | null

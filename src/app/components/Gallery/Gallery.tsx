@@ -28,22 +28,32 @@ export default function Gallery({ initialMedias, price }: GalleryProps) {
 	const numLikes = medias.reduce((total, media) => total + media.likes, 0);
 
 	async function handleLike(id: number) {
-		if (arrayLiked[id] === true) {
-			return;
-		}
-
-		setArrayLiked((prevState) => ({
-			...prevState, // copie toutes les clés existantes
-			[id]: true, // écrase uniquement la clé `id` avec la nouvelle valeur
-		}));
-
-		//mettre à jour les likes dans la base de donnée
-
+		// Trouver le bon média
 		const media = medias.find((m) => m.id === id);
 		if (!media) {
 			return;
 		}
-		const newLikes = media.likes + 1;
+
+		// Mettre false de base
+		let liked = arrayLiked[id];
+		let newLikes = media.likes;
+
+		//voir si déja liké
+		if (liked) {
+			liked = false;
+			newLikes -= 1;
+		} else {
+			liked = true;
+			newLikes += 1;
+		}
+
+		setArrayLiked((prevState) => ({
+			...prevState, // copie toutes les clés existantes
+			[id]: liked, // écrase uniquement la clé `id` avec la nouvelle valeur
+		}));
+
+		//mettre à jour les likes dans la base de donnée
+
 		// Appel réseau vers le serveur, qui exécute Prisma
 		const updatedMedia = await likeMedia(id, newLikes);
 		setMedias((prev) => prev.map((m) => (m.id === id ? updatedMedia : m)));
@@ -147,6 +157,7 @@ export default function Gallery({ initialMedias, price }: GalleryProps) {
 										}
 										aria-hidden="true"
 										className={styles.likeIcon}
+										alt="bouton like"
 									/>
 								</button>
 							</span>
